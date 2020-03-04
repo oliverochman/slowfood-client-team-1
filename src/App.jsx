@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import DisplayProductData from './components/DisplayProductData';
 
-const App = () => {
+class App extends Component {
 	return (
 		<>
 			<h1>Slowfood</h1>
