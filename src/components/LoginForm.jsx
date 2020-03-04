@@ -2,7 +2,7 @@ import React from 'react'
 
 const LoginForm = ({ submitFormHandler }) => {
   return (
-    <form onsubmit={submitFormHandler} id='login-form'>
+    <form onSubmit={submitFormHandler} id='login-form'>
       <label>Email</label>
       <input name='email' type='email' id='email'></input>
 
