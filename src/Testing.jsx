@@ -54,7 +54,7 @@ class App extends Component {
       case renderRegistrationForm && !authenticated:
         renderRegister = <RegistrationForm submitFormHandler={this.onRegister} />;
         break;
-      case !renderRegistrationForm && !authenticated: 
+      case !renderRegistrationForm && !renderLoginForm && !authenticated: 
         renderRegister = (
           <>
             <button
@@ -66,8 +66,6 @@ class App extends Component {
             <p id="registered_message">{message}</p>
           </>
         );
-        break;
-      case !renderLoginForm && !authenticated:
         renderLogin = (
           <>
             <button
@@ -80,6 +78,16 @@ class App extends Component {
           </>
         );
         break;
+        case renderRegistrationForm:
+          <>
+          <button
+          id="back"
+          onClick={() => this.setState({ renderRegistrationForm: false })}
+          >
+          Back
+        </button>
+        </>
+          break;
       case authenticated:
         renderResponse = (
           <p id="message">Hi {JSON.parse(sessionStorage.getItem("credentials")).uid}</p>
