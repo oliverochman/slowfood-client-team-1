@@ -7,7 +7,6 @@ const authenticate = async (email, password) => {
             password: password
         });
         await storeAuthCredentials(response);
-        debugger
         return { authenticated: true };
     } catch (error) {
         return { authenticated: false, message: 'Invalid login credentials. Please try again.' };
