@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import DisplayProductData from "./components/DisplayProductData";
 import LoginForm from "./components/LoginForm";
-import { authenticate } from "./modules/authenticate";
-import { register } from "./modules/registration";
+import { authenticate, register } from "./modules/authenticate";
 import RegistrationForm from "./components/RegistrationForm";
 
 class App extends Component {

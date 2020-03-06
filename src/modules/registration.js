@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const register = (name, email, password, confirm_password) => {
+const register = async (name, email, password, confirm_password) => {
   try {
-    const response = axios.post("auth/sign_up", {
+    const response = await axios.post("auth/sign_up", {
       name: name,
       email: email,
       password: password,
@@ -18,8 +18,6 @@ const register = (name, email, password, confirm_password) => {
   } catch (error) {
     return { registered: false, message: "Invalid entries. Please try again." };
   }
-
-  console.log(response)
 };
 
 export { register };
