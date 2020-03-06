@@ -26,39 +26,52 @@ class App extends Component {
     }
   };
 
-  onRegister = async e => {
+  onRegister = e => {
     e.preventDefault();
-    const response = await register(
+    const response = register(
       e.target.name.value,
       e.target.email.value,
       e.target.password.value,
       e.target.confirm_password.value
     );
     if (response.registered) {
-      this.setState({ registered: true });
+      this.setState({
+        message: response.message,
+        registered: true
+      });
     } else {
-      this.setState({ message: response.message, renderRegistrationForm: false });
+      this.setState({
+        message: response.message,
+        renderRegistrationForm: false
+      });
     }
   };
 
   render() {
-    const { renderLoginForm, authenticated, message, renderRegistrationForm, registered } = this.state;
-    let renderResponse;
+    const {
+      renderLoginForm,
+      authenticated,
+      message,
+      renderRegistrationForm,
+      registered
+    } = this.state;
     let renderLogin;
-    let renderRegister
-    
+    let renderRegister;
+
     switch (true) {
       case renderLoginForm && !authenticated:
         renderLogin = <LoginForm submitFormHandler={this.onLogin} />;
         break;
       case renderRegistrationForm && !authenticated:
-        renderRegister = <RegistrationForm submitFormHandler={this.onRegister} />;
+        renderRegister = (
+          <RegistrationForm submitFormHandler={this.onRegister} />
+        );
         break;
-      case !renderRegistrationForm && !renderLoginForm && !authenticated: 
+      case !renderRegistrationForm && !renderLoginForm && !authenticated:
         renderRegister = (
           <>
             <button
-              id="register"
+              id="signup"
               onClick={() => this.setState({ renderRegistrationForm: true })}
             >
               Sign up
@@ -78,26 +91,18 @@ class App extends Component {
           </>
         );
         break;
-        case renderRegistrationForm:
-          <>
-          <button
-          id="back"
-          onClick={() => this.setState({ renderRegistrationForm: false })}
-          >
-          Back
-        </button>
-        </>
-          break;
       case authenticated:
-        renderResponse = (
-          <p id="message">Hi {JSON.parse(sessionStorage.getItem("credentials")).uid}</p>
+        renderLogin = (
+          <p id="message">
+            Hi {JSON.parse(sessionStorage.getItem("credentials")).uid}
+          </p>
         );
         break;
       case registered:
-        renderResponse = (
-          <p id="message">Your account was successfully created</p>
+        renderRegister = (
+          <p id="message">Your account has been successfully created</p>
         );
-          break;        
+        break;
     }
 
     return (
