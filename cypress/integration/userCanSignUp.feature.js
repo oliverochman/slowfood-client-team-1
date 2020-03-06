@@ -7,15 +7,15 @@ describe("user can sign up", () => {
   it("successfully", () => {
     cy.route({
       method: "POST",
-      url: "http://localhost:3000/api/auth/sign_in",
+      url: "http://localhost:3000/api/auth/sign_up",
       response: "fixture:registration.json",
       headers: {
         uid: 'user@mail.com'
     }
     });
     
-    cy.get("#signup").click();
-    cy.get("#signup-form").within(() => {
+    cy.get("#render-signup").click();
+    cy.get("#signup").within(() => {
       cy.get("#name").type("Mike Shum");
       cy.get("#email").type("user@mail.com");
       cy.get("#password").type("password");
@@ -27,19 +27,18 @@ describe("user can sign up", () => {
     cy.get("#message").should("contain", "Hi user@mail.com");
   });
 
-  xit("with invalid credentials", () => {
+  it("with invalid credentials", () => {
     cy.route({
       method: "POST",
-      url: "http://localhost:3000/api/auth/sign_in",
+      url: "http://localhost:3000/api/auth/sign_up",
       status: "401",
       response: {
-        errors: ["Invalid entries. Please try again."],
-        success: false
+        errors: ["Invalid entries. Please try again."]
       }
     });
 
-    cy.get("#signup").click();
-    cy.get("#signup-form").within(() => {
+    cy.get("#render-signup").click();
+    cy.get("#signup").within(() => {
       cy.get("#name").type("Mike Shum");
       cy.get("#email").type("user@mail.com");
       cy.get("#password").type("password");

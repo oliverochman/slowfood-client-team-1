@@ -9,100 +9,82 @@ class App extends Component {
     renderLoginForm: false,
     authenticated: false,
     renderRegistrationForm: false,
-    registered: false
   };
 
-  onLogin = async e => {
+  onSignIn = async e => {
+    let response
     e.preventDefault();
-    const response = await authenticate(
-      e.target.email.value,
-      e.target.password.value
-    );
+
+    if (e.target.id === "signup") {
+      response = await register(
+        e.target.name.value,
+        e.target.email.value,
+        e.target.password.value,
+        e.target.confirm_password.value
+      );
+    } else {
+      response = await authenticate(
+        e.target.email.value,
+        e.target.password.value
+      );
+    }
+
     if (response.authenticated) {
       this.setState({ authenticated: true });
     } else {
-      this.setState({ message: response.message, renderLoginForm: false });
+      debugger;
+      this.setState({ message: response.message[0], renderRegistrationForm: false, renderLoginForm: false });
     }
   };
 
-  onRegister = e => {
-    e.preventDefault();
-    const response = register(
-      e.target.name.value,
-      e.target.email.value,
-      e.target.password.value,
-      e.target.confirm_password.value
-    );
-    if (response.registered) {
-      this.setState({
-        message: response.message,
-        registered: true
-      });
-    } else {
-      this.setState({
-        message: response.message,
-        renderRegistrationForm: false
-      });
-    }
-  };
 
   render() {
     const {
       renderLoginForm,
       authenticated,
       message,
-      renderRegistrationForm,
-      registered
+      renderRegistrationForm
     } = this.state;
     let renderLogin;
     let renderRegister;
     let renderResponse;
+    let renderSignIn;
 
     switch (true) {
-      case renderLoginForm && !authenticated:
-        renderLogin = <LoginForm submitFormHandler={this.onLogin} />;
-        break;
       case renderRegistrationForm && !authenticated:
-        renderRegister = (
-          <RegistrationForm submitFormHandler={this.onRegister} />
-        );
+        renderRegister = <RegistrationForm submitFormHandler={this.onSignIn} />
         break;
-      case !renderRegistrationForm && !renderLoginForm && !authenticated:
-        renderRegister = (
+
+      case renderLoginForm && !authenticated:
+        renderLogin = <LoginForm submitFormHandler={this.onSignIn} />;
+        break;
+
+      case !authenticated:
+        renderSignIn = (
           <>
             <button
-              id="signup"
+              id="render-signup"
               onClick={() => this.setState({ renderRegistrationForm: true })}
             >
               Sign up
             </button>
-            <p id="message">{message}</p>
-          </>
-        );
-        renderLogin = (
-          <>
+
             <button
-              id="login"
+              id="render-login"
               onClick={() => this.setState({ renderLoginForm: true })}
-            >
-              Login
-            </button>
+            ></button>
             <p id="message">{message}</p>
           </>
         );
-        break;
-      case authenticated || registered:
+        break; 
+       
+      case authenticated:
         renderResponse = (
           <p id="message">
             Hi {JSON.parse(sessionStorage.getItem("credentials")).uid}
           </p>
         );
         break;
-      //case registered:
-        //renderResponse = (
-          //<p id="message">Your account has been successfully created</p>
-        //);
-        //break;
     }
 
     return (
@@ -111,6 +93,7 @@ class App extends Component {
         {renderLogin}
         {renderRegister}
         {renderResponse}
+        {renderSignIn}
         <DisplayProductData />
       </>
     );

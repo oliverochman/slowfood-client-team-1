@@ -34,6 +34,7 @@ class App extends Component {
       e.target.password.value,
       e.target.confirm_password.value
     );
+    
     if (response.registered) {
       this.setState({ registered: true });
     } else {

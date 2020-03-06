@@ -14,7 +14,7 @@ describe('User can log in', () => {
               uid: 'user@mail.com'
           }
       });
-      cy.get('#login').click();
+      cy.get('#render-login').click();
       cy.get('#login-form').within(() => {
           cy.get('#email').type('user@mail.com');
           cy.get('#password').type('password');
@@ -33,7 +33,7 @@ describe('User can log in', () => {
               success: false
           }
       });
-      cy.get("#login").click();
+      cy.get("#render-login").click();
       cy.get('#login-form').within(() => {
           cy.get('#email').type('user@mail.com');
           cy.get('#password').type('wrongpassword');

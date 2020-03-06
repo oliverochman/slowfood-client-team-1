@@ -2,7 +2,7 @@ import React from 'react'
 
 const RegistrationForm = ({ submitFormHandler }) => {
   return (
-    <form onSubmit={submitFormHandler} id='signup-form'>
+    <form onSubmit={submitFormHandler} id='signup'>
       <label>Full Name</label>
       <input name='name' type='text' id='name'></input>
 
