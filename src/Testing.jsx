@@ -57,6 +57,7 @@ class App extends Component {
     } = this.state;
     let renderLogin;
     let renderRegister;
+    let renderResponse;
 
     switch (true) {
       case renderLoginForm && !authenticated:
@@ -76,7 +77,7 @@ class App extends Component {
             >
               Sign up
             </button>
-            <p id="registered_message">{message}</p>
+            <p id="message">{message}</p>
           </>
         );
         renderLogin = (
@@ -91,18 +92,18 @@ class App extends Component {
           </>
         );
         break;
-      case authenticated:
-        renderLogin = (
+      case authenticated || registered:
+        renderResponse = (
           <p id="message">
             Hi {JSON.parse(sessionStorage.getItem("credentials")).uid}
           </p>
         );
         break;
-      case registered:
-        renderRegister = (
-          <p id="message">Your account has been successfully created</p>
-        );
-        break;
+      //case registered:
+        //renderResponse = (
+          //<p id="message">Your account has been successfully created</p>
+        //);
+        //break;
     }
 
     return (
@@ -110,6 +111,7 @@ class App extends Component {
         <h1>Slowfood</h1>
         {renderLogin}
         {renderRegister}
+        {renderResponse}
         <DisplayProductData />
       </>
     );
